@@ -3,14 +3,14 @@ import fs from 'fs';
 export default async function handler(req, res) {
     // if (req.method !== 'POST') return
     const { iconData, title } = req.body
-    const folderName = title;
-    try {
-        if (!fs.existsSync(folderName)) {
-            fs.mkdirSync(folderName);
-        }
-    } catch (err) {
-        console.error(err);
-    }
+    // const folderName = title;
+    // try {
+    //     if (!fs.existsSync(folderName)) {
+    //         fs.mkdirSync(folderName);
+    //     }
+    // } catch (err) {
+    //     console.error(err);
+    // }
 
     // iconData.forEach((e, index) => {
 
@@ -30,10 +30,10 @@ export default async function handler(req, res) {
 
     axios.all(requests)
         .then(axios.spread((...responses) => {
-            responses.forEach((e, index) => {
-                e.data.pipe(fs.createWriteStream(folderName + "/" + index + ".png"))
-            })
-            res.status(200).json({ data: "success" });
+            // responses.forEach((e, index) => {
+            //     e.data.pipe(fs.createWriteStream(folderName + "/" + index + ".png"))
+            // })
+            res.status(200).json({ data: JSON.stringify(responses) });
         }))
         .catch(error => {
             // 处理错误
