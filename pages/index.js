@@ -2,6 +2,7 @@ import Layout from '../components/layout';
 import { Image, Input, Button, Grid, Card, Row, Text, Col, Spacer } from "@nextui-org/react";
 import axios from 'axios';
 import fs from 'fs';
+import { saveAs } from 'file-saver'
 import React, { useState, useRef } from 'react';
 import styles from '../styles/Home.module.css';
 // npm run dev
@@ -40,21 +41,15 @@ export default function Home() {
 
     axios.all(requests)
       .then(axios.spread((...responses) => {
-        responses.forEach((e, index) => {
-          setTimeout(() => {
-            console.log(index)
-            const url = window.URL.createObjectURL(new Blob([e.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', index + ".png");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            if (index == responses.length - 1) {
-              alert("download finish!")
-            }
-          }, 200 * index)
-        })
+        saveAs(new Blob([responses[0].data]), 'image.jpg');
+        // responses.forEach((e, index) => {
+        //   setTimeout(() => {
+
+        //     if (index == responses.length - 1) {
+        //       alert("download finish!")
+        //     }
+        //   }, 200 * index)
+        // })
       }))
       .catch(error => {
         // 处理错误
