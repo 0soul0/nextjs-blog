@@ -5,6 +5,7 @@ import fs from 'fs';
 import React, { useState, useRef } from 'react';
 import styles from '../styles/Home.module.css';
 // npm run dev
+// "build": "next build",
 export default function Home() {
   const [iconData, setIcon] = useState([]);
   const [title, setTitle] = useState("");
