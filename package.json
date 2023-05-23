@@ -24,5 +24,11 @@
     "fs": false,
     "os": false,
     "path": false
-  }
+  },
+  "name": "nextjs-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:0soul0/nextjs-blog.git",
+  "author": "Shu ya <sevideo6666@gmail.com>",
+  "license": "MIT"
 }
