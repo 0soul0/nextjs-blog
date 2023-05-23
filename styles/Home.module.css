@@ -89,3 +89,9 @@
     flex-direction: column;
   }
 }
+
+
+
+.text_center {
+  text-align: center;
+}
