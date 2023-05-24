@@ -1,5 +1,5 @@
 import Layout from '../components/layout';
-import { Image, Input, Button, Grid, Card, Row, Text, Col, Spacer } from "@nextui-org/react";
+import { Image, Input, Button, Grid, Card, Row, Text, Col, Spacer, Link } from "@nextui-org/react";
 import axios from 'axios';
 import fs from 'fs';
 import { saveAs } from 'file-saver'
@@ -64,6 +64,14 @@ export default function Home() {
         <Col>
           <Card >
             <Card.Body>
+              <Link color="secondary" onClick={() => { window.open("https://store.line.me/home/zh-Hant") }}>
+                <Text h1 size={30} color="secondary">
+                  LINE
+                </Text>
+              </Link>
+              {/* <Text h1 size={20} onClick={() => { window.open("https://store.line.me/home/zh-Hant") }}>
+                LINE
+              </Text> */}
               <Input clearable bordered placeholder="Input URL" aria-label='Input URL' value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} />
               <Spacer y={1} />
               <Button color="success" auto onPress={fetchData} >
