@@ -5,6 +5,8 @@ import fs from 'fs';
 import { saveAs } from 'file-saver'
 import React, { useState, useRef } from 'react';
 import styles from '../styles/Home.module.css';
+import path from 'path'
+import JSZip from 'jszip'
 // npm run dev
 // "build": "next build",
 export default function Home() {
@@ -32,7 +34,6 @@ export default function Home() {
 
 
   const saveImage = async (iconData, title) => {
-
     const requests = iconData.map(url => axios({
       url: url.iconURL,
       method: 'GET',
@@ -41,74 +42,19 @@ export default function Home() {
 
     axios.all(requests)
       .then(axios.spread((...responses) => {
-        saveAs(new Blob([responses[0].data]), 'image.jpg');
-        // responses.forEach((e, index) => {
-        //   setTimeout(() => {
-
-        //     if (index == responses.length - 1) {
-        //       alert("download finish!")
-        //     }
-        //   }, 200 * index)
-        // })
+        const zip = new JSZip();
+        responses.forEach((e, index) => {
+          zip.file(index + '.png', new Blob([e.data]));
+        })
+        zip.generateAsync({ type: 'blob' })
+          .then((content) => {
+            saveAs(content, title + ".zip")
+          })
       }))
       .catch(error => {
         // 处理错误
         console.error('Error:', error.message);
       });
-
-    // axios({
-    //   url: iconData[0].iconURL,
-    //   method: 'GET',
-    //   responseType: 'blob',
-    // })
-    //   .then(response => {
-    //     const url = window.URL.createObjectURL(new Blob([response.data]));
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', "myImage.png");
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error downloading image:', error.message);
-    //   });
-
-    // const link = document.createElement('a');
-    // link.href = iconData[0].iconURL;
-    // link.download = "myImage.png";
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
-
-    // axios({
-    //   method: 'post',
-    //   url: '/api/save-icon',
-    //   //API要求的資料
-    //   data: {
-    //     iconData: iconData,
-    //     title: title
-    //   }
-    // }).then(response => {
-    //   var data = JSON.parse(response.data)
-    //   console.log(data)
-
-    //   // const folderName = title;
-    //   // try {
-    //   //   if (!fs.existsSync(folderName)) {
-    //   //     fs.mkdirSync(folderName);
-    //   //   }
-    //   // } catch (err) {
-    //   //   console.error(err);
-    //   // }
-    //   // data.forEach((e, index) => {
-    //   //   e.data.pipe(fs.createWriteStream(folderName + "/" + index + ".png"))
-    //   // })
-    //   alert("save success!")
-    // })
-    //   .catch(error => {
-
-    //   });
   };
 
 
