@@ -1,5 +1,5 @@
 import Layout from '../components/layout';
-import { Image, Input, Button, Grid, Card, Row, Text, Col, Spacer, Link } from "@nextui-org/react";
+import { Image, Input, Button, Grid, Card, Row, Text, Col, Spacer, Link, Container } from "@nextui-org/react";
 import axios from 'axios';
 import fs from 'fs';
 import { saveAs } from 'file-saver'
@@ -44,7 +44,7 @@ export default function Home() {
       .then(axios.spread((...responses) => {
         const zip = new JSZip();
         responses.forEach((e, index) => {
-          zip.file(index + '.png', new Blob([e.data]));
+          zip.file(Date.now() + "-" + index + '.png', new Blob([e.data]));
         })
         zip.generateAsync({ type: 'blob' })
           .then((content) => {
@@ -62,16 +62,16 @@ export default function Home() {
     <Layout>
       <Row gap={1}>
         <Col>
-          <Card >
+          <Card>
             <Card.Body>
-              <Link color="secondary" onClick={() => { window.open("https://store.line.me/home/zh-Hant") }}>
-                <Text h1 size={30} color="secondary">
-                  LINE
-                </Text>
-              </Link>
-              {/* <Text h1 size={20} onClick={() => { window.open("https://store.line.me/home/zh-Hant") }}>
-                LINE
-              </Text> */}
+              <div className={styles.text_center}>
+                <Link color="secondary" onClick={() => { window.open("https://store.line.me/home/zh-Hant") }}>
+                  <Text h1 size={30} color="secondary" >
+                    LINE
+                  </Text>
+                </Link>
+              </div>
+
               <Input clearable bordered placeholder="Input URL" aria-label='Input URL' value={inputUrl} onChange={(e) => setInputUrl(e.target.value)} />
               <Spacer y={1} />
               <Button color="success" auto onPress={fetchData} >
